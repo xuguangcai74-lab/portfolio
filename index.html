@@ -641,7 +641,7 @@ html[data-theme="light"] .card:hover{
 
     <!-- 项目 A: 健康助手（大卡） -->
     <div class="card card-featured reveal" id="card-health">
-      <div class="card-cover" id="cover-health" data-video="assets/demo.mp4" title="点击查看演示视频">
+      <div class="card-cover" id="cover-health" data-video="assets/health_demo.mp4" title="点击查看演示视频">
         <img src="assets/health_cover.png" alt="健康助手小程序封面" loading="lazy">
         <div class="card-cover-overlay">
           <div class="card-cover-hint">
@@ -767,11 +767,11 @@ html[data-theme="light"] .card:hover{
     <button class="modal-close" id="modal-close" title="关闭">&times;</button>
     <div class="modal-video-wrap" id="modal-video-wrap">
       <!--
-        TODO: 将 assets/demo.mp4 替换为真实的演示视频文件。
-        当前视频文件不存在时，播放器会优雅降级为提示文字。
+        演示视频: assets/health_demo.mp4（H.264 压缩版）
+        视频文件不存在时，播放器会优雅降级为提示文字。
       -->
       <video id="demo-video" controls playsinline preload="metadata">
-        <source src="assets/demo.mp4" type="video/mp4">
+        <source src="assets/health_demo.mp4" type="video/mp4">
       </video>
     </div>
   </div>
@@ -823,7 +823,7 @@ html[data-theme="light"] .card:hover{
       camp_r1:'活动策划 → 页面生成 → 报名 → 数据 → 复盘 全链路闭环',
       camp_r2:'受控 Page Schema：AI 不直接生成 HTML/JS，杜绝注入',
       camp_r3:'运营数据分析 + 优化建议自动生成',
-      video_preparing:'演示视频准备中',
+      video_preparing:'请耐心等待视频加载',
       video_loading:'加载中…',
       modal_tree:'目录结构',
       modal_design:'架构与设计',
@@ -857,7 +857,7 @@ html[data-theme="light"] .card:hover{
       camp_r1:'End-to-End Closed Loop: Campaign Planning → Page Generation → Registration → Data Analytics → Review',
       camp_r2:'Controlled Page Schema: AI generates structured schemas instead of raw HTML/JS, eliminating injection risks.',
       camp_r3:'Operations Data Analytics + Auto-Generated Optimization Recommendations',
-      video_preparing:'Preparing Demo Video',
+      video_preparing:'Please wait for the video to load',
       video_loading:'Loading...',
       modal_tree:'Directory Structure',
       modal_design:'Architecture & Design',
@@ -1240,7 +1240,7 @@ html[data-theme="light"] .card:hover{
   applyLang(currentLang);
 
   // Pre-verify health video on load (in background)
-  verifyVideo('assets/demo.mp4');
+  verifyVideo('assets/health_demo.mp4');
 })();
 </script>
 
