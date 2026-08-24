@@ -478,6 +478,22 @@ html[data-theme="light"] .card:hover{
 .video-loading-text b{font-variant-numeric:tabular-nums;color:#fff}
 .video-loading-bar{width:min(320px,70%);height:4px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
 .video-loading-bar-fill{height:100%;width:0%;border-radius:2px;background:var(--accent,#4f8cff);transition:width .25s linear}
+.gallery{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#000}
+.gallery-img{max-width:100%;max-height:100%;object-fit:contain;transition:opacity .25s}
+.gallery-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.12);color:#fff;
+  border:1px solid rgba(255,255,255,.25);cursor:pointer;
+  font-size:1.4rem;line-height:1;display:flex;align-items:center;justify-content:center;
+  z-index:3;transition:background .25s;
+}
+.gallery-btn:hover{background:rgba(255,255,255,.28)}
+.gallery-prev{left:12px}
+.gallery-next{right:12px}
+.gallery-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:3}
+.gallery-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:background .25s,transform .25s}
+.gallery-dots span.active{background:#fff;transform:scale(1.3)}
 
 /* ===== Detail Modal ===== */
 .modal-dialog-scroll{
@@ -683,7 +699,7 @@ html[data-theme="light"] .card:hover{
 
     <!-- 项目 B: AnimeVerse -->
     <div class="card reveal" id="card-animeverse">
-      <div class="card-cover" id="cover-animeverse" data-video="assets/animeverse_demo.mp4" title="点击查看演示视频">
+      <div class="card-cover" id="cover-animeverse" data-gallery="assets/galleries/animeverse_home.jpg,assets/galleries/animeverse_ask.jpg,assets/galleries/animeverse_recommend.jpg" title="点击查看页面展示">
         <img src="assets/animeverse_cover.jpg" alt="AnimeVerse 封面" loading="lazy">
         <div class="card-cover-overlay">
           <div class="card-cover-hint">
@@ -715,7 +731,7 @@ html[data-theme="light"] .card:hover{
 
     <!-- 项目 C: CampaignOS -->
     <div class="card reveal" id="card-campaignos">
-      <div class="card-cover" id="cover-campaignos" data-video="assets/campaignos_demo.mp4" title="点击查看演示视频">
+      <div class="card-cover" id="cover-campaignos" data-gallery="assets/galleries/campaignos_home.jpg,assets/galleries/campaignos_demo.jpg" title="点击查看页面展示">
         <img src="assets/campaignos_cover.jpg" alt="CampaignOS 封面" loading="lazy">
         <div class="card-cover-overlay">
           <div class="card-cover-hint">
@@ -1079,6 +1095,56 @@ html[data-theme="light"] .card:hover{
     }
   }
 
+  function renderGallery(srcs){
+    modalWrap.innerHTML=
+      '<div class="gallery">'+
+        '<img class="gallery-img" id="gallery-img" alt="页面展示">'+
+        '<button class="gallery-btn gallery-prev" id="gallery-prev" title="上一张">&lsaquo;</button>'+
+        '<button class="gallery-btn gallery-next" id="gallery-next" title="下一张">&rsaquo;</button>'+
+        '<div class="gallery-dots" id="gallery-dots"></div>'+
+      '</div>';
+    var img=document.getElementById('gallery-img');
+    var dotsWrap=document.getElementById('gallery-dots');
+    var idx=0;
+    var i,k;
+    for(i=0;i<srcs.length;i++){
+      var d=document.createElement('span');
+      if(i===0)d.className='active';
+      (function(n){d.addEventListener('click',function(){show(n);});})(i);
+      dotsWrap.appendChild(d);
+    }
+    var dots=dotsWrap.children;
+    function preload(n){
+      if(n>=0&&n<srcs.length){var im=new Image();im.src=srcs[n];}
+    }
+    function show(n){
+      idx=(n+srcs.length)%srcs.length;
+      img.style.opacity='0';
+      setTimeout(function(){
+        img.src=srcs[idx];
+        img.style.opacity='1';
+      },150);
+      for(k=0;k<dots.length;k++)dots[k].className=(k===idx?'active':'');
+      preload(idx+1);preload(idx-1);
+    }
+    document.getElementById('gallery-prev').addEventListener('click',function(){show(idx-1);});
+    document.getElementById('gallery-next').addEventListener('click',function(){show(idx+1);});
+    function onKey(e){
+      if(!modalOverlay.classList.contains('active')){document.removeEventListener('keydown',onKey);return;}
+      if(e.key==='ArrowLeft')show(idx-1);
+      if(e.key==='ArrowRight')show(idx+1);
+    }
+    document.addEventListener('keydown',onKey);
+    show(0);
+  }
+
+  function openGallery(srcs){
+    currentSrc=null;
+    modalOverlay.classList.add('active');
+    document.body.style.overflow='hidden';
+    renderGallery(srcs);
+  }
+
   function openModal(src){
     currentSrc=src;
     modalOverlay.classList.add('active');
@@ -1194,6 +1260,8 @@ html[data-theme="light"] .card:hover{
   var covers=document.querySelectorAll('.card-cover');
   for(var i=0;i<covers.length;i++){
     covers[i].addEventListener('click',function(e){
+      var g=this.getAttribute('data-gallery');
+      if(g){openGallery(g.split(','));return;}
       var src=this.getAttribute('data-video');
       if(src)openModal(src);
     });
