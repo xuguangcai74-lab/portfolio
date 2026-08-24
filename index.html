@@ -243,6 +243,7 @@ html[data-theme="light"] .hero-logo{filter:invert(1) drop-shadow(0 0 10px rgba(2
 .hero-intro{
   margin-top:28px;max-width:580px;
   font-size:.95rem;color:var(--text-muted);line-height:1.9;
+  white-space:pre-line;
 }
 .hero-cta{
   display:inline-flex;align-items:center;gap:16px;
@@ -561,6 +562,15 @@ html[data-theme="light"] .card:hover{
 .contact-link-icon{
   font-size:1.35rem;line-height:1;
 }
+.card-more-body{
+  text-align:center;padding-top:26px;padding-bottom:30px;
+}
+.card-more-body .more-title{
+  font-size:1.35rem;letter-spacing:.06em;
+}
+.card-more-body .card-desc{
+  margin:10px auto 0;max-width:none;text-align:center;
+}
 
 /* ===== Footer ===== */
 .footer{
@@ -646,7 +656,8 @@ html[data-theme="light"] .card:hover{
   <h1>MaxCai</h1>
   <p class="hero-tagline" data-i18n="hero_tagline">算法探索者 · 大模型应用实践者</p>
   <p class="hero-intro" data-i18n="hero_intro">
-    我专注 Agent 与大模型应用方向，喜欢把大模型能力落地到真实场景。从知识检索、智能体编排到 AI 原生应用，这里是三个个人项目的记录——从想法到可运行的代码，每一步都有完整的工程实践。
+    专注于大模型算法、RAG知识工程与Agent应用开发，致力于将模型能力转化为可靠、可执行、可持续迭代的智能产品。<br>
+    让模型理解问题，让Agent解决问题，让创意成为可以运行的产品。
   </p>
   <!-- CTA -->
   <a href="#projects" class="hero-cta">
@@ -760,6 +771,19 @@ html[data-theme="light"] .card:hover{
       </div>
     </div>
 
+    <!-- 项目 D: 更多项目（敬请期待） -->
+    <div class="card card-featured reveal" id="card-more">
+      <div class="card-cover card-cover-static">
+        <img src="assets/more_projects_cover.jpg" alt="更多项目敬请期待" loading="lazy">
+      </div>
+      <div class="card-body card-more-body">
+        <h3 class="more-title" data-i18n="more_name">欲穷千里目，更上一层楼</h3>
+        <p class="card-desc" data-i18n="more_desc">
+          更多项目，敬请期待
+        </p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -774,6 +798,22 @@ html[data-theme="light"] .card:hover{
       </span>
       18605619382@163.com
     </a>
+    <span class="contact-link" title="GitHub">
+      <span class="contact-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+    </span>
+    <span class="contact-link" title="微信">
+      <span class="contact-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/></svg></span>
+      caixvguang
+    </span>
+    <span class="contact-link" title="抖音">
+      <span class="contact-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></span>
+    </span>
+    <span class="contact-link" title="B站">
+      <span class="contact-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"/></svg></span>
+    </span>
+    <span class="contact-link" title="YouTube">
+      <span class="contact-link-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>
+    </span>
   </div>
 </section>
 
@@ -818,7 +858,7 @@ html[data-theme="light"] .card:hover{
   var I18N={
     zh:{
       hero_tagline:'算法探索者 · 大模型应用实践者',
-      hero_intro:'我专注 Agent 与大模型应用方向，喜欢把大模型能力落地到真实场景。从知识检索、智能体编排到 AI 原生应用，这里是三个个人项目的记录——从想法到可运行的代码，每一步都有完整的工程实践。',
+      hero_intro:'专注于大模型算法、RAG知识工程与Agent应用开发，致力于将模型能力转化为可靠、可执行、可持续迭代的智能产品。\n让模型理解问题，让Agent解决问题，让创意成为可以运行的产品。',
       cta:'查看项目',
       section_title:'项目实践',
       watch_demo:'查看演示',
@@ -849,11 +889,13 @@ html[data-theme="light"] .card:hover{
       video_loading_pct:'视频加载中 ',
       modal_tree:'目录结构',
       modal_design:'架构与设计',
-      modal_metrics:'量化成果'
+      modal_metrics:'量化成果',
+      more_name:'欲穷千里目，更上一层楼',
+      more_desc:'更多项目，敬请期待'
     },
     en:{
       hero_tagline:'Algorithm Explorer · LLM Application Builder',
-      hero_intro:'I specialize in Agent and LLM applications, focusing on bringing LLM capabilities to real-world scenarios. From knowledge retrieval and agent orchestration to AI-native applications, this portfolio documents three personal projects—transforming ideas into runnable code with end-to-end engineering practices.',
+      hero_intro:'Specializing in LLM algorithms, RAG knowledge engineering, and Agent application development, I am dedicated to transforming model capabilities into reliable, deployable, and continuously iterable intelligent products.\nI empower models to understand problems, enable Agents to solve them, and transform creative ideas into fully functional products.',
       cta:'View Projects',
       section_title:'Project Portfolio',
       watch_demo:'Watch Demo',
@@ -884,7 +926,9 @@ html[data-theme="light"] .card:hover{
       video_loading_pct:'Loading video ',
       modal_tree:'Directory Structure',
       modal_design:'Architecture & Design',
-      modal_metrics:'Quantitative Results'
+      modal_metrics:'Quantitative Results',
+      more_name:'Climb higher to see farther',
+      more_desc:'More projects coming soon'
     }
   };
 
