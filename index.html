@@ -467,6 +467,17 @@ html[data-theme="light"] .card:hover{
 }
 .modal-video-fallback .fallback-icon{font-size:2.8rem;opacity:.5}
 .modal-video-fallback .fallback-text{font-size:.88rem;color:var(--text-dim)}
+.video-loading{
+  position:absolute;inset:0;z-index:5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  background:rgba(0,0,0,.72);color:#fff;
+  transition:opacity .4s;
+}
+.video-loading.hidden{opacity:0;pointer-events:none}
+.video-loading-text{font-size:.95rem;color:rgba(255,255,255,.85)}
+.video-loading-text b{font-variant-numeric:tabular-nums;color:#fff}
+.video-loading-bar{width:min(320px,70%);height:4px;border-radius:2px;background:rgba(255,255,255,.18);overflow:hidden}
+.video-loading-bar-fill{height:100%;width:0%;border-radius:2px;background:var(--accent,#4f8cff);transition:width .25s linear}
 
 /* ===== Detail Modal ===== */
 .modal-dialog-scroll{
@@ -825,6 +836,7 @@ html[data-theme="light"] .card:hover{
       camp_r3:'运营数据分析 + 优化建议自动生成',
       video_preparing:'请耐心等待视频加载',
       video_loading:'加载中…',
+      video_loading_pct:'视频加载中 ',
       modal_tree:'目录结构',
       modal_design:'架构与设计',
       modal_metrics:'量化成果'
@@ -859,6 +871,7 @@ html[data-theme="light"] .card:hover{
       camp_r3:'Operations Data Analytics + Auto-Generated Optimization Recommendations',
       video_preparing:'Please wait for the video to load',
       video_loading:'Loading...',
+      video_loading_pct:'Loading video ',
       modal_tree:'Directory Structure',
       modal_design:'Architecture & Design',
       modal_metrics:'Quantitative Results'
@@ -1041,7 +1054,7 @@ html[data-theme="light"] .card:hover{
       v.muted=true;
       var timeout=setTimeout(function(){
         videoState[src]='fail';resolve(false);
-      },2000);
+      },5000);
       v.addEventListener('loadedmetadata',function(){
         clearTimeout(timeout);
         if(v.duration>0){videoState[src]='ok';resolve(true);}
@@ -1061,10 +1074,40 @@ html[data-theme="light"] .card:hover{
     modalWrap.innerHTML='<div class="modal-video-fallback"><span class="fallback-icon">🎬</span><p class="fallback-text" data-i18n="video_preparing">'+esc(t.video_preparing)+'</p></div>';
   }
 
+  function bufferedPct(v){
+    if(!v.duration||!isFinite(v.duration)||v.duration<=0)return 0;
+    var b=v.buffered;
+    if(!b||b.length===0)return 0;
+    return Math.min(100,Math.round(b.end(b.length-1)/v.duration*100));
+  }
+
   function renderVideo(src){
-    modalWrap.innerHTML='<video id="demo-video" controls playsinline preload="metadata"><source src="'+src+'" type="video/mp4"></video>';
+    modalWrap.innerHTML=
+      '<div class="video-loading" id="video-loading">'+
+        '<span class="video-loading-text" data-i18n="video_loading_pct">'+esc(I18N[currentLang].video_loading_pct)+'<b id="video-load-pct">0%</b></span>'+
+        '<div class="video-loading-bar"><div class="video-loading-bar-fill" id="video-load-fill"></div></div>'+
+      '</div>'+
+      '<video id="demo-video" controls playsinline preload="metadata"><source src="'+src+'" type="video/mp4"></video>';
     var newVid=document.getElementById('demo-video');
-    if(newVid)newVid.play().catch(function(){});
+    var overlay=document.getElementById('video-loading');
+    var pctEl=document.getElementById('video-load-pct');
+    var fillEl=document.getElementById('video-load-fill');
+    function update(){
+      var p=bufferedPct(newVid);
+      if(pctEl)pctEl.textContent=p+'%';
+      if(fillEl)fillEl.style.width=p+'%';
+    }
+    if(newVid){
+      newVid.addEventListener('progress',update);
+      newVid.addEventListener('loadedmetadata',update);
+      newVid.addEventListener('timeupdate',update);
+      newVid.addEventListener('playing',function(){if(overlay)overlay.classList.add('hidden');});
+      newVid.addEventListener('waiting',function(){if(overlay)overlay.classList.remove('hidden');update();});
+      newVid.addEventListener('error',function(){
+        modalWrap.innerHTML='<div class="modal-video-fallback"><span class="fallback-icon">🎬</span><p class="fallback-text" data-i18n="video_preparing">'+esc(I18N[currentLang].video_preparing)+'</p></div>';
+      });
+      newVid.play().catch(function(){});
+    }
   }
 
   function openModal(src){
