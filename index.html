@@ -1037,37 +1037,6 @@ html[data-theme="light"] .card:hover{
 
   // ===== Video Modal =====
   var currentSrc=null;          // 当前要播放的视频源
-  var videoState={};            // src -> 'checking' | 'ok' | 'fail'
-
-  function verifyVideo(src){
-    if(videoState[src]==='ok'){return Promise.resolve(true);}
-    if(videoState[src]==='fail'){return Promise.resolve(false);}
-    if(videoState[src]==='checking'){return Promise.resolve(false);} // 并发时降级，避免重复探测
-    videoState[src]='checking';
-    return new Promise(function(resolve){
-      var v=document.createElement('video');
-      var canPlay=v.canPlayType('video/mp4');
-      if(canPlay===''||canPlay==='no'){
-        videoState[src]='fail';resolve(false);return;
-      }
-      v.preload='metadata';
-      v.muted=true;
-      var timeout=setTimeout(function(){
-        videoState[src]='fail';resolve(false);
-      },5000);
-      v.addEventListener('loadedmetadata',function(){
-        clearTimeout(timeout);
-        if(v.duration>0){videoState[src]='ok';resolve(true);}
-        else{videoState[src]='fail';resolve(false);}
-      });
-      v.addEventListener('error',function(){
-        clearTimeout(timeout);
-        videoState[src]='fail';resolve(false);
-      });
-      v.src=src;
-      v.load();
-    });
-  }
 
   function showFallback(){
     var t=I18N[currentLang];
@@ -1115,26 +1084,15 @@ html[data-theme="light"] .card:hover{
     modalOverlay.classList.add('active');
     document.body.style.overflow='hidden';
 
-    verifyVideo(src).then(function(ok){
-      if(!modalOverlay.classList.contains('active')||currentSrc!==src)return; // 已关闭或已切换
-      if(ok){
-        renderVideo(src);
-      }else{
-        // 探测完成但失败，或仍在并发检测中 → 降级
-        modalWrap.innerHTML='<div class="modal-video-fallback"><span class="fallback-icon">⏳</span><p class="fallback-text" data-i18n="video_loading">'+esc(I18N[currentLang].video_loading)+'</p></div>';
-        // 若之前只是并发跳过，这里重新探测一次，避免永远停在"加载中"
-        if(videoState[src]==='checking'){
-          setTimeout(function(){
-            verifyVideo(src).then(function(ok2){
-              if(!modalOverlay.classList.contains('active')||currentSrc!==src)return;
-              if(ok2){renderVideo(src);}else{showFallback();}
-            });
-          },300);
-        }else{
-          showFallback();
-        }
-      }
-    });
+    // 同步探测：浏览器是否支持 mp4（canPlayType 不触发网络请求，移动端安全）
+    var probe=document.createElement('video');
+    if(probe.canPlayType('video/mp4')===''||probe.canPlayType('video/mp4')==='no'){
+      showFallback();
+      return;
+    }
+    // 直接渲染：video 元素挂载在 DOM 中加载（iOS Safari/微信 WebView 对 detached
+    // media 元素不触发 loadedmetadata，预检会导致移动端误判失败）
+    renderVideo(src);
   }
 
   function closeModal(){
@@ -1281,9 +1239,6 @@ html[data-theme="light"] .card:hover{
   // ===== Init =====
   applyTheme(currentTheme);
   applyLang(currentLang);
-
-  // Pre-verify health video on load (in background)
-  verifyVideo('assets/health_demo.mp4');
 })();
 </script>
 
